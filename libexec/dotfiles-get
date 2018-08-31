@@ -23,7 +23,9 @@ main() {
       FILE_NAME=$(file_name_for_index $i)
       SYSTEM_PATH=$(system_path_for_index $i)
       REPO_PATH=$(repo_path_for_index $i)
-      cp -rT $REPO_PATH $SYSTEM_PATH
+      mv $SYSTEM_PATH tmp
+      cp -r $REPO_PATH $SYSTEM_PATH
+      rm -rf tmp
     fi
   done
   header "Done! Your dotfiles are now up to date!"
