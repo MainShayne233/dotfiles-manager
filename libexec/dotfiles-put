@@ -17,7 +17,7 @@ main() {
       FILE_NAME=$(file_name_for_index $i)
       SYSTEM_PATH=$(system_path_for_index $i)
       REPO_PATH=$(repo_path_for_index $i)
-      cp -r $SYSTEM_PATH $REPO_PATH
+      cp -rT $SYSTEM_PATH $REPO_PATH
     fi
   done
   header "Done! Now just add and commit via git"
