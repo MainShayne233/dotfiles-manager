@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -CEeuo pipefail
+IFS=$'\n\t'
+shopt -s extdebug
+
+load_commonsh
+
+main() {
+  echo "This will overwrite the dotfiles on your system with what's in the repo."
+  echo
+  read -p "Are you sure want to do this? (y/n) " -r
+  echo    # (optional) move to a new line
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+  header "Putting files on from repo onto system"
+  local FILE_NAME
+  local SYSTEM_PATH
+  local REPO_PATH
+  let FINAL_INDEX=$FILES_COUNT-1
+  for i in $(seq 0 $FINAL_INDEX); do
+    if [[ $(there_is_system_configuration_for_index $i) == 'true' ]]; then
+      FILE_NAME=$(file_name_for_index $i)
+      SYSTEM_PATH=$(system_path_for_index $i)
+      REPO_PATH=$(repo_path_for_index $i)
+      cp -rT $REPO_PATH $SYSTEM_PATH
+    fi
+  done
+  header "Done! Your dotfiles are now up to date!"
+  fi
+}
+
+main "$@"
