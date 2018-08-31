@@ -1,0 +1,25 @@
+[user]
+	name = MainShayne233
+	email = shaynetremblay@hotmail.com
+[color]
+	ui = true
+[credential]
+	helper = store
+[alias]
+	bn="!git rev-parse --abbrev-ref HEAD"
+	arh="!git add -A && git reset --hard"
+	arho="!git add -A && git reset --hard `git bn`"
+	pb="!git push origin $(git bn)"
+	ap=add --patch
+	cv=commit -v
+	branchdiff="!git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | tr '\n' ' '"
+	wip="!git add -A && git commit -m 'WIP'"
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[core]
+	excludesfile = /home/shayne/.gitignore_global
+[github]
+	user = MainShayne233

@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Git Config",
+    "linux": {
+      "system_path": "$HOME/.gitconfig",
+      "repo_path": "files/linux_and_mac/gitconfig"
+    },
+    "mac": {
+      "system_path": "$HOME/.gitconfig",
+      "repo_path": "files/linux_and_mac/gitconfig"
+    }
+  },
+  {
+    "name": "SSH Config",
+    "linux": {
+      "system_path": "$HOME/.ssh/config",
+      "repo_path": "files/linux_and_mac/ssh_config"
+    },
+    "mac": {
+      "system_path": "$HOME/.ssh/config",
+      "repo_path": "files/linux_and_mac/ssh_config"
+    }
+  },
+  {
+    "name": "Spacemacs Config",
+    "linux": {
+      "system_path": "$HOME/.spacemacs",
+      "repo_path": "files/linux_and_mac/spacemacs_config"
+    },
+    "mac": {
+      "system_path": "$HOME/.spacemacs",
+      "repo_path": "files/linux_and_mac/spacemacs_config"
+    }
+  },
+  {
+    "name": "Spacemacs Lib",
+    "linux": {
+      "system_path": "$HOME/.spacemacs_lib",
+      "repo_path": "files/linux_and_mac/spacemacs_lib"
+    },
+    "mac": {
+      "system_path": "$HOME/.spacemacs_lib",
+      "repo_path": "files/linux_and_mac/spacemacs_lib"
+    }
+  }
+]
