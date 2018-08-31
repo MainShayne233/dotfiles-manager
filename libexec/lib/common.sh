@@ -18,48 +18,37 @@ log() {
   echo "$@" | indent
 }
 
-tolower() {
-  echo "$@" | tr "[:upper:]" "[:lower:]"
-}
-
 header() {
   echo "-----> $1"
 }
 
-declare -a on_exit_items
-
-on_exit() {
-  for i in "${on_exit_items[@]}"; do
-    echo "on_exit: $i"
-    eval "$i"
-  done
+value_for_index_and_query() {
+  query=".[$1].$2"
+  path=$(echo $INDEX_JSON_FILE | jq --raw-output $query)
+  echo $(eval "echo $path")
 }
 
-add_on_exit() {
-  local n=${#on_exit_items[*]}
-  on_exit_items[$n]="$*"
-  if [[ $n -eq 0 ]]; then
-    trap on_exit EXIT >&1 >/dev/null
-  fi
+file_name_for_index() {
+  query="name"
+  value_for_index_and_query $1 "$query"
 }
 
-verify_directory() {
-  if [[ ! -d "$1" ]]; then
-    log "Unable to find directory: $1"
-    exit 1
-  fi
+system_path_for_index() {
+  query="$SYSTEM.system_path"
+  value_for_index_and_query $1 "$query"
 }
 
-absolute_path() {
-  if [[ -d "$1" ]]; then
-    cd "$1" || exit 1
-    pwd -P
+repo_path_for_index() {
+  query="$SYSTEM.repo_path"
+  rel_dir=$(value_for_index_and_query $1 "$query")
+  echo "$DOTFILES_DIR/$rel_dir"
+}
+
+there_is_system_configuration_for_index() {
+  query="$SYSTEM | type"
+  if [[ $(value_for_index_and_query $1 $query) == 'object' ]]; then
+    echo 'true'
   else
-    cd "$(dirname "$1")" || exit 1
-    echo "$(pwd -P)/$(basename "$1")"
+    echo 'false'
   fi
-}
-
-get_git_branch() {
-  git rev-parse --abbrev-ref HEAD
 }

@@ -23,10 +23,6 @@ abs_dirname() {
   cd "$cwd"
 }
 
-get_dirname() {
-  dirname "$(cd "$(dirname "$1")" && pwd)"
-}
-
 libexec_path="$(abs_dirname "$0")"
 _DOTFILES_ROOT="$(abs_dirname "$libexec_path")"
 export _DOTFILES_ROOT
@@ -43,9 +39,19 @@ load_commonsh
 
 export PATH="${libexec_path}:$PATH"
 
-# Run locally
-WORKSPACE_DIR="$(get_dirname "$DOTFILES_DIR/..")"
-export WORKSPACE_DIR
+export INDEX_JSON_PATH="$DOTFILES_DIR/index.json"
+
+export INDEX_JSON_FILE=$(cat $INDEX_JSON_PATH)
+
+export FILES_COUNT=$(echo $INDEX_JSON_FILE | jq '. | length')
+
+export SYSTEM
+
+if [[ $(uname) == 'Linux' ]]; then
+  SYSTEM='linux'
+else
+  SYSTEM='mac'
+fi
 
 command="${1:-""}"
 case "$command" in
