@@ -25,11 +25,11 @@
     "name": "SSH Config",
     "linux": {
       "system_path": "$HOME/.ssh/config",
-      "repo_path": "files/linux_and_mac/ssh_config"
+      "repo_path": "files/linux/ssh_config"
     },
     "mac": {
       "system_path": "$HOME/.ssh/config",
-      "repo_path": "files/linux_and_mac/ssh_config"
+      "repo_path": "files/mac/ssh_config"
     }
   },
   {
