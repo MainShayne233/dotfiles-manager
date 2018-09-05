@@ -11,6 +11,17 @@
     }
   },
   {
+    "name": "Bash Config",
+    "linux": {
+      "system_path": "$HOME/.bash_profile",
+      "repo_path": "files/linux_and_mac/bash_config"
+    },
+    "mac": {
+      "system_path": "$HOME/.bash_profile",
+      "repo_path": "files/linux_and_mac/bash_config"
+    }
+  },
+  {
     "name": "SSH Config",
     "linux": {
       "system_path": "$HOME/.ssh/config",

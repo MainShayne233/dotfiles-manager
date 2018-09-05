@@ -1,0 +1,67 @@
+export BASHRC="$HOME/.bash_profile"
+export SSHRC="$HOME/.ssh/config"
+export GITRC="$HOME/.gitconfig"
+export EMAIL="shaynetremblay@gmail.com"
+export EDITOR="vim"
+
+export PATH=$PATH:/usr/local/sbin/
+export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/.yarn/bin
+export PATH=$PATH:$HOME/opt
+
+source "$HOME/packlane/pack/share/.workrc"
+source "$HOME/packlane/.packlanerc"
+
+source "$HOME/packlane/.packlanerc"
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
+eval "$($HOME/shell/dotfiles-manager/bin/dotfiles init -)"
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
+
+alias sb="source $BASHRC"
+alias eb="$EDITOR $BASHRC && sb"
+alias eg="$EDITOR $GITRC"
+alias es="$EDITOR $SSHRC"
+alias git="hub"
+alias itunes="WINEPREFIX=/home/shayne/.wine32 wine ~/.wine32/drive_c/Program\ Files/iTunes/iTunes.exe"
+alias graphics-intel="sudo system76-power graphics intel && sudo poweroff"
+alias graphics-nvidia="sudo system76-power graphics nvidia && sudo poweroff"
+
+pservices() {
+  (cd $PACKLANE_WORKSPACE/services && nf start)
+}
+
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+run() {
+  # for all Elixir projects
+  if [ -f mix.exs ]; then
+    # for Phoenix projects
+    if grep -q "phoenix" mix.exs; then
+      iex -S mix phx.server
+    # for plain Elixir projects
+    else
+      iex -S mix
+    fi
+  else
+    echo '`run` not setup for this project type'
+  fi
+}
+
+killit() {
+  kill -9 `ps -ef | grep $1 | grep -v grep | awk '{ print $2 }' | tr '\n' ' '`
+}
+
+elixirdiff() {
+  git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | grep .ex | tr '\n' ' '
+}
+
+export PS1="\[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\n=> "
+
+export PATH="$HOME/.cargo/bin:$PATH"
