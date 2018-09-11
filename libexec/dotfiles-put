@@ -17,7 +17,9 @@ main() {
       FILE_NAME=$(file_name_for_index $i)
       SYSTEM_PATH=$(system_path_for_index $i)
       REPO_PATH=$(repo_path_for_index $i)
-      rm -rf $REPO_PATH
+      if [[ -f $REPO_PATH ]]; then
+        rm -rf $REPO_PATH
+      fi
       cp -r $SYSTEM_PATH $REPO_PATH
     fi
   done
