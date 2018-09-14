@@ -1,5 +1,7 @@
-;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
+;; - * -mode:emacs - lisp - *-;
+;;
+;; This file is loaded by Spacemacs at startup.;
+;;
 ;; It must be stored in your home directory.
 
 (defun dotspacemacs/layers ()
@@ -31,10 +33,16 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     ;; languages
      javascript
+     react
      elixir
-     nlinum
      c-c++
+     ;; etc
+     nlinum
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-sort-by-usage t)
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -58,7 +66,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(editorconfig)
+   dotspacemacs-additional-packages '(editorconfig smartparens)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -284,7 +292,7 @@ values."
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   dotspacemacs-search-tools '("pt" "ag" "ack" "grep")
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now. (default nil)
@@ -323,6 +331,8 @@ you should place your code here."
             (function (lambda ()
                         (add-hook 'before-save-hook
                                   'clang-format-buffer))))
+  ;; smartparens
+  (smartparens-global-mode 1)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -334,7 +344,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (disaster cmake-mode clang-format nlinum-relative nlinum editorconfig web-beautify tern livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ob-elixir flycheck-mix flycheck-credo flycheck alchemist s company dash elixir-mode which-key use-package pcre2el macrostep hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape evil goto-chg undo-tree elisp-slime-nav diminish bind-map bind-key auto-compile packed ace-window ace-jump-helm-line helm avy helm-core popup async))))
+    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data helm-company helm-c-yasnippet fuzzy company-tern dash-functional tern company-statistics company-quickhelp pos-tip company-c-headers auto-yasnippet ac-ispell auto-complete ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode paradox spinner org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu highlight dumb-jump f define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link which-key web-beautify use-package pcre2el ob-elixir nlinum-relative macrostep livid-mode json-mode js2-refactor js-doc hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag flycheck-mix flycheck-credo exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav editorconfig disaster diminish coffee-mode cmake-mode clang-format bind-map auto-compile alchemist ace-window ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
