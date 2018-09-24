@@ -7,29 +7,20 @@ shopt -s extdebug
 load_commonsh
 
 main() {
-  echo "This will overwrite the dotfiles on your system with what's in the repo."
-  echo
-  read -p "Are you sure want to do this? (y/n) " -r
-  echo    # (optional) move to a new line
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-  header "Putting files on from repo onto system"
-  local FILE_NAME
-  local SYSTEM_PATH
-  local REPO_PATH
+  header "Getting files from repo and placing onto system."
+  local item_name
+  local system_path
+  local repo_path
   let FINAL_INDEX=$FILES_COUNT-1
   for i in $(seq 0 $FINAL_INDEX); do
     if [[ $(there_is_system_configuration_for_index $i) == 'true' ]]; then
-      FILE_NAME=$(file_name_for_index $i)
-      SYSTEM_PATH=$(system_path_for_index $i)
-      REPO_PATH=$(repo_path_for_index $i)
-      mv $SYSTEM_PATH tmp
-      cp -r $REPO_PATH $SYSTEM_PATH
-      rm -rf tmp
+      item_name=$(item_name_for_index $i)
+      system_path=$(system_path_for_index $i)
+      repo_path=$(repo_path_for_index $i)
+      replace_on_system $item_name $system_path $repo_path
     fi
   done
-  header "Done! Your dotfiles are now up to date!"
-  fi
+  header "Done! Your dotfiles are updated!"
 }
 
 main "$@"

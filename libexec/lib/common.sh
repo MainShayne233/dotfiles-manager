@@ -144,3 +144,41 @@ replace_in_repo() {
     *)
   esac
 }
+
+replace_on_system() {
+  local name="$1"
+  local system_path="$2"
+  local repo_path="$3"
+  determine_path_case $system_path $repo_path
+  case $? in
+    $BOTH_MATCH)
+      header "MATCH - $name is up to date!"
+      ;;
+    $BOTH_EXIST)
+      header "DIFF - The version of $name differs on the system from the repo. Update your system with the latest from the repo? [y/n]"
+      read -r
+      if [[ $REPLY =~ ^[Yy]$  ]]; then
+        verbose_rm $system_path
+        verbose_cp $repo_path $system_path
+      fi
+      ;;
+    $SOURCE_EXISTS)
+      header "MISSING IN REPO - $name does not exist in the repo. Remove $name from the system as well? [y/n]"
+      read -r
+      if [[ $REPLY =~ ^[Yy]$  ]]; then
+         verbose_rm $system_path
+      fi
+      ;;
+    $DESTINATION_EXISTS)
+      header "MISSING ON SYSTEM - $name does not exist in the on the system. Copy $name onto the system? [y/n]"
+      read -r
+      if [[ $REPLY =~ ^[Yy]$  ]]; then
+        verbose_cp $repo_path $system_path
+      fi
+      ;;
+    $NEITHER_EXIST)
+      header "ALL MISSING - $name does not exist on the system or in the repo. Skipping."
+      ;;
+    *)
+  esac
+}
