@@ -17,7 +17,7 @@ main() {
       file_name=$(file_name_for_index $i)
       system_path=$(system_path_for_index $i)
       repo_path=$(repo_path_for_index $i)
-      replace_file $system_path $repo_path
+      replace_in_repo $file_name $system_path $repo_path
     fi
   done
   header "Done! Now just add and commit via git"

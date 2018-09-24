@@ -62,20 +62,61 @@ file_or_dir_exists() {
   fi
 }
 
-replace_file() {
-  local new_file="$1"
-  local file_to_replace="$2"
+BOTH_MATCH=0
+BOTH_EXIST=1
+SOURCE_EXISTS=2
+DESTINATION_EXISTS=3
+NEITHER_EXIST=4
 
+determine_path_case() {
   set +e
-  if ! file_or_dir_exists $new_file; then
-    header "$new_file does not exist on system"
-  elif ! file_or_dir_exists $file_to_replace; then
-    header "$file_to_replace does not exist in repo"
-  elif diff $new_file $file_to_replace; then
-    echo "$new_file matches the repo version"
+  local source_path="$1"
+  local destination_path="$2"
+  file_or_dir_exists $source_path
+  local source_exists=$(echo $?)
+  file_or_dir_exists $destination_path
+  local destination_exists=$(echo $?)
+
+  if [[ $source_exists -eq 0 && $destination_exists -eq 0 ]]; then
+    if diff $source_path $destination_path >/dev/null; then
+      return $BOTH_MATCH
+    else
+      return $BOTH_EXIST
+    fi
+    return $BOTH_EXIST
+  elif [[ $source_exists -eq 0 ]]; then
+    return $SOURCE_EXISTS
+  elif [[ $destination_exists -eq 0 ]]; then
+    return $DESTINATION_EXISTS
   else
-    echo "Confirm that you want to put your version of $new_file into the repo?"
-    read -r
+    return $NEITHER_EXIST
   fi
   set -e
+}
+
+replace_in_repo() {
+  local name="$1"
+  local system_path="$2"
+  local repo_path="$3"
+  determine_path_case $system_path $repo_path
+  case $? in
+    $BOTH_MATCH)
+      header "MATCH - $name"
+      ;;
+    $BOTH_EXIST)
+      header "DIFF - The version of $name differs on the system from the repo. Update the repo with current version? [y/n]"
+      read -r
+      ;;
+    $SOURCE_EXISTS)
+      header "MISSING IN REPO - $name does not exist in the repo. Add $system_path to the repo? [y/n]"
+      read -r
+      ;;
+    $DESTINATION_EXISTS)
+      header "MISSING ON SYSTEM - $name does not exist in the on the system. Remove $file from repo too? [y/n]"
+      ;;
+    $NEITHER_EXIST)
+      header "ALL MISSING - $name does not exist on the system or in the repo. Skipping."
+      ;;
+    *)
+  esac
 }
