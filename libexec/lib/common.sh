@@ -94,6 +94,19 @@ determine_path_case() {
   set -e
 }
 
+verbose_cp() {
+  local source="$1"
+  local destination="$2"
+  header "Copying $source to $destination"
+  cp -r $source $destination
+}
+
+verbose_rm() {
+  local source="$1"
+  header "Removing $source"
+  rm -rf $source
+}
+
 replace_in_repo() {
   local name="$1"
   local system_path="$2"
@@ -101,32 +114,28 @@ replace_in_repo() {
   determine_path_case $system_path $repo_path
   case $? in
     $BOTH_MATCH)
-      header "MATCH - $name"
+      header "MATCH - $name is up to date!"
       ;;
     $BOTH_EXIST)
       header "DIFF - The version of $name differs on the system from the repo. Update the repo with current version? [y/n]"
       read -r
       if [[ $REPLY =~ ^[Yy]$  ]]; then
-        header "Removing $repo_path"
-        rm -rf $repo_path
-        header "Copying $system_path to $repo_path"
-        cp -r $system_path $repo_path
+        verbose_rm $repo_path
+        verbose_cp $system_path $repo_path
       fi
       ;;
     $SOURCE_EXISTS)
       header "MISSING IN REPO - $name does not exist in the repo. Add $system_path to the repo? [y/n]"
       read -r
       if [[ $REPLY =~ ^[Yy]$  ]]; then
-         header "Copying $system_path to $repo_path"
-         cp -r $system_path $repo_path
+         verbose_cp $system_path $repo_path
       fi
       ;;
     $DESTINATION_EXISTS)
       header "MISSING ON SYSTEM - $name does not exist in the on the system. Remove $name from repo too? [y/n]"
       read -r
       if [[ $REPLY =~ ^[Yy]$  ]]; then
-        header "Removing $repo_path"
-        rm -rf $repo_path
+        verbose_rm $repo_path
       fi
       ;;
     $NEITHER_EXIST)
