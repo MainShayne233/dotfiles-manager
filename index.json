@@ -40,14 +40,14 @@
     }
   },
   {
-    "name": "Spacemacs Lib",
+    "name": "Global Gitignore",
     "linux": {
-      "system_path": "$HOME/.spacemacs_lib",
-      "repo_path": "files/linux_and_mac/spacemacs_lib"
+      "system_path": "$HOME/.gitignore_global",
+      "repo_path": "files/linux_and_mac/gitignore_global"
     },
     "mac": {
-      "system_path": "$HOME/.spacemacs_lib",
-      "repo_path": "files/linux_and_mac/spacemacs_lib"
+      "system_path": "$HOME/.gitignore_global",
+      "repo_path": "files/linux_and_mac/gitignore_global"
     }
   }
 ]

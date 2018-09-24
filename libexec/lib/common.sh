@@ -110,6 +110,10 @@ replace_in_repo() {
     $SOURCE_EXISTS)
       header "MISSING IN REPO - $name does not exist in the repo. Add $system_path to the repo? [y/n]"
       read -r
+      if [[ $REPLY =~ ^[Yy]$  ]]; then
+         header "copying $system_path to $repo_path"
+         cp -r $system_path $repo_path
+      fi
       ;;
     $DESTINATION_EXISTS)
       header "MISSING ON SYSTEM - $name does not exist in the on the system. Remove $file from repo too? [y/n]"
