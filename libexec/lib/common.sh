@@ -106,6 +106,12 @@ replace_in_repo() {
     $BOTH_EXIST)
       header "DIFF - The version of $name differs on the system from the repo. Update the repo with current version? [y/n]"
       read -r
+      if [[ $REPLY =~ ^[Yy]$  ]]; then
+        header "Removing $repo_path"
+        rm -rf $repo_path
+        header "Copying $system_path to $repo_path"
+        cp -r $system_path $repo_path
+      fi
       ;;
     $SOURCE_EXISTS)
       header "MISSING IN REPO - $name does not exist in the repo. Add $system_path to the repo? [y/n]"
@@ -119,7 +125,7 @@ replace_in_repo() {
       header "MISSING ON SYSTEM - $name does not exist in the on the system. Remove $name from repo too? [y/n]"
       read -r
       if [[ $REPLY =~ ^[Yy]$  ]]; then
-        header "Removing $repo_path from repo"
+        header "Removing $repo_path"
         rm -rf $repo_path
       fi
       ;;
