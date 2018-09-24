@@ -8,16 +8,16 @@ load_commonsh
 
 main() {
   header "Putting files on system into repo"
-  local file_name
+  local item_name
   local system_path
   local repo_path
   let FINAL_INDEX=$FILES_COUNT-1
   for i in $(seq 0 $FINAL_INDEX); do
     if [[ $(there_is_system_configuration_for_index $i) == 'true' ]]; then
-      file_name=$(file_name_for_index $i)
+      item_name=$(item_name_for_index $i)
       system_path=$(system_path_for_index $i)
       repo_path=$(repo_path_for_index $i)
-      replace_in_repo $file_name $system_path $repo_path
+      replace_in_repo $item_name $system_path $repo_path
     fi
   done
   header "Done! Now just add and commit via git"

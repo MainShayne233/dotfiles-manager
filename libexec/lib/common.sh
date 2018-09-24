@@ -28,7 +28,7 @@ value_for_index_and_query() {
   echo $(eval "echo $path")
 }
 
-file_name_for_index() {
+item_name_for_index() {
   local query="name"
   value_for_index_and_query $1 "$query"
 }
