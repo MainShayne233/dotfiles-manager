@@ -117,11 +117,16 @@ replace_in_repo() {
       header "MATCH - $name is up to date!"
       ;;
     $BOTH_EXIST)
-      header "DIFF - The version of $name differs on the system from the repo. Update the repo with current version? [y/n]"
+      header "DIFF - The version of $name differs on the system from the repo. Update the repo with current version? [y/n/diff]"
       read -r
       if [[ $REPLY =~ ^[Yy]$  ]]; then
         verbose_rm $repo_path
         verbose_cp $system_path $repo_path
+      elif [[ $REPLY =~ ^diff$ ]]; then
+        set +e
+	diff $repo_path $system_path
+	set -e
+	replace_in_repo $name $system_path $repo_path
       fi
       ;;
     $SOURCE_EXISTS)
@@ -155,11 +160,16 @@ replace_on_system() {
       header "MATCH - $name is up to date!"
       ;;
     $BOTH_EXIST)
-      header "DIFF - The version of $name differs on the system from the repo. Update your system with the latest from the repo? [y/n]"
+      header "DIFF - The version of $name differs on the system from the repo. Update your system with the latest from the repo? [y/n/diff]"
       read -r
       if [[ $REPLY =~ ^[Yy]$  ]]; then
         verbose_rm $system_path
         verbose_cp $repo_path $system_path
+      elif [[ $REPLY =~ ^diff$ ]];then
+        set +e
+	diff $system_path $repo_path
+	set -e
+	replace_on_system $name $system_path $repo_path
       fi
       ;;
     $SOURCE_EXISTS)
