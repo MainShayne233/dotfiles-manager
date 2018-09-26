@@ -7,6 +7,7 @@ shopt -s extdebug
 load_commonsh
 
 main() {
+  dotfiles update
   header "Getting files from repo and placing onto system."
   local item_name
   local system_path
