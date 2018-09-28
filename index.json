@@ -22,6 +22,17 @@
     }
   },
   {
+    "name": "Bash OS Specific Config",
+    "linux": {
+      "system_path": "$HOME/.bash_os",
+      "repo_path": "files/linux/bash_linux"
+    },
+    "mac": {
+      "system_path": "$HOME/.bash_os",
+      "repo_path": "files/mac/bash_mac"
+    }
+  },
+  {
     "name": "SSH Config",
     "mac": {
       "system_path": "$HOME/.ssh/config",

@@ -1,0 +1,12 @@
+alias open=xdg-open
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+emailhtml() {
+  mailx -a 'Content-Type: text/html' -s "$1" "$2" < "$3"
+}
+
+
+
+
+
