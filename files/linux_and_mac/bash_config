@@ -17,10 +17,6 @@ export GOPATH=$HOME/.go
 
 export PS1="\[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\n=> "
 
-# Put in bash_mac
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-
 eval "$($HOME/shell/dotfiles-manager/bin/dotfiles init -)"
 
 . $HOME/.asdf/asdf.sh
