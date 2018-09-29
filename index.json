@@ -60,5 +60,16 @@
       "system_path": "$HOME/.gitignore_global",
       "repo_path": "files/linux_and_mac/gitignore_global"
     }
+  },
+  {
+    "name": "Tmux config",
+    "linux": {
+      "system_path": "$HOME/.tmux.conf",
+      "repo_path": "files/linux_and_mac/tmux_config"
+    },
+    "mac": {
+      "system_path": "$HOME/.tmux.conf",
+      "repo_path": "files/linux_and_mac/tmux_config"
+    }
   }
 ]

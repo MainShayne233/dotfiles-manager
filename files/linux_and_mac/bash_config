@@ -28,6 +28,7 @@ alias eb="$EDITOR $BASHRC && sb"
 alias eg="$EDITOR $GITRC"
 alias es="$EDITOR $SSHRC"
 alias git="hub"
+alias extract="tar -xzvf"
 
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -56,6 +57,7 @@ elixirdiff() {
   git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | grep .ex | tr '\n' ' '
 }
 
+source "$HOME/packlane/pack/share/.workrc"
 
 source $HOME/.bash_os
 source $HOME/.privaterc
