@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -CEeuo pipefail
+IFS=$'\n\t'
+shopt -s extdebug
+
+load_commonsh
+
+main() {
+  header "Pulling latest version of dotfiles repo"
+  (
+  cd $DOTFILES_DIR
+  git add -A
+  git status
+  echo "Hit any key to publish these changes to the repo"
+  read -r
+  git commit -m 'Updating dotfiles (automatic commit message)'
+  git push origin master
+  )
+}
+
+main "$@"

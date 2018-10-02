@@ -11,6 +11,7 @@ export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.yarn/bin
 export PATH=$PATH:$HOME/opt
 export PATH=$PATH:$HOME/opt/teleport/bin
+export PATH=$PATH:$HOME/opt/tsh/bin
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export GOPATH=$HOME/.go
@@ -55,6 +56,13 @@ killit() {
 
 elixirdiff() {
   git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | grep .ex | tr '\n' ' '
+}
+
+schedule() {
+  if [[ ! -d $HOME/schedule ]]; then
+    mkdir $HOME/schedule
+  fi
+  vim $HOME/schedule/$(date +'%m-%d-%Y').log
 }
 
 source "$HOME/packlane/pack/share/.workrc"
