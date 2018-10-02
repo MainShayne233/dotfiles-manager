@@ -8,7 +8,7 @@
 [alias]
 	bn="!git rev-parse --abbrev-ref HEAD"
 	arh="!git add -A && git reset --hard"
-	arho="!git add -A && git reset --hard `git bn`"
+	arho="!git add -A && git reset --hard origin/`git bn`"
 	pb="!git push origin $(git bn)"
 	ap=add --patch
 	cv=commit -v
