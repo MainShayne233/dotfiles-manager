@@ -34,6 +34,10 @@
   },
   {
     "name": "SSH Config",
+    "linux": {
+      "system_path": "$HOME/.ssh/config",
+      "repo_path": "files/mac/ssh_config"
+    },
     "mac": {
       "system_path": "$HOME/.ssh/config",
       "repo_path": "files/mac/ssh_config"

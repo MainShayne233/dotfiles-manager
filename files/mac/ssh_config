@@ -1,10 +1,5 @@
 Include conf.d/*
 
-Host *
-  IgnoreUnknown UseKeychain
-  UseKeychain yes
-  AddKeysToAgent yes
-  IdentityFile ~/.ssh/id_rsa
-
-Host shaynes-mbp
-  User shaynetremblay
+Host linprog
+  HostName linprog.cs.fsu.edu
+  User tremblay
