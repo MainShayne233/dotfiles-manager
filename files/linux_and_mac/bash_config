@@ -62,7 +62,13 @@ schedule() {
   if [[ ! -d $HOME/schedule ]]; then
     mkdir $HOME/schedule
   fi
-  vim $HOME/schedule/$(date +'%m-%d-%Y').log
+  if [[ "$1" =~ ^(--yesterday|-y) ]]; then
+    vim "$HOME/schedule/$(date -d 'yesterday' +'%m-%d-%Y').log"
+  elif [[ "$1" =~ ^(--tomorrow|-t) ]]; then
+    vim "$HOME/schedule/$(date -d 'tomorrow' +'%m-%d-%Y').log"
+  else
+    vim "$HOME/schedule/$(date +'%m-%d-%Y').log"
+  fi
 }
 
 source "$HOME/packlane/pack/share/.workrc"

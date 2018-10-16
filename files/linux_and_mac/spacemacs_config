@@ -33,13 +33,15 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     ;; languages
+     rust
      erlang
      markdown
-     ;; languages
      javascript
      react
      elixir
      c-c++
+     emacs-lisp
      ;; etc
      nlinum
      (auto-completion :variables
@@ -53,7 +55,6 @@ values."
      helm
      auto-completion
      ;; better-defaults
-     emacs-lisp
      git
      ;; markdown
      ;; org
@@ -314,6 +315,7 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+
   )
 
 (defun dotspacemacs/user-config ()
@@ -333,11 +335,30 @@ you should place your code here."
             (function (lambda ()
                         (add-hook 'before-save-hook
                                   'clang-format-buffer))))
+
   ;; smartparens
   (smartparens-global-mode 1)
   )
 
-  (setq flycheck-elixir-credo-strict t)
+(setq flycheck-elixir-credo-strict t)
+
+
+  ;; mix format
+  (add-hook 'elixir-mode-hook
+            (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+
+  (add-hook 'elixir-format-hook
+            (lambda ()
+              (if (projectile-project-p)
+                  (setq elixir-format-arguments
+                        (list "--dot-formatter"
+                              (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
+                (setq elixir-format-arguments nil))))
+
+
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'js2-jsx-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -348,7 +369,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flycheck-dialyxir flycheck-pos-tip ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode paradox spinner org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu highlight dumb-jump f define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link which-key web-mode web-beautify use-package tagedit smeargle smartparens slim-mode scss-mode sass-mode pug-mode prettier-js pcre2el orgit ob-elixir nlinum-relative mmm-mode markdown-toc magit-gitflow macrostep livid-mode json-mode js2-refactor js-doc hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flycheck-mix flycheck-credo exec-path-from-shell evil-visualstar evil-magit evil-escape erlang emmet-mode elisp-slime-nav editorconfig disaster diminish diff-hl company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clang-format bind-map auto-yasnippet auto-compile alchemist ace-window ace-jump-helm-line ac-ispell))))
+    (toml-mode racer flycheck-rust cargo rust-mode flycheck-dialyxir flycheck-pos-tip ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode paradox spinner org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu highlight dumb-jump f define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link which-key web-mode web-beautify use-package tagedit smeargle smartparens slim-mode scss-mode sass-mode pug-mode prettier-js pcre2el orgit ob-elixir nlinum-relative mmm-mode markdown-toc magit-gitflow macrostep livid-mode json-mode js2-refactor js-doc hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flycheck-mix flycheck-credo exec-path-from-shell evil-visualstar evil-magit evil-escape erlang emmet-mode elisp-slime-nav editorconfig disaster diminish diff-hl company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clang-format bind-map auto-yasnippet auto-compile alchemist ace-window ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
