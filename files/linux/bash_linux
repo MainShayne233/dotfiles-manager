@@ -6,7 +6,4 @@ emailhtml() {
   mailx -a 'Content-Type: text/html' -s "$1" "$2" < "$3"
 }
 
-
-
-
-
+alias clips="$HOME/opt/clips_core_source_640/core/clips"

@@ -71,6 +71,10 @@ schedule() {
   fi
 }
 
+scpdir() {
+  tar czf - "$1" | ssh "$2" "cd ~/ && tar xvzf -"
+}
+
 source "$HOME/packlane/pack/share/.workrc"
 
 source $HOME/.bash_os
