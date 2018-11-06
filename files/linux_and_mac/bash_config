@@ -26,6 +26,7 @@ eval "$($HOME/shell/dotfiles-manager/bin/dotfiles init -)"
 
 alias sb="source $BASHRC"
 alias eb="$EDITOR $BASHRC && sb"
+alias ei="$EDITOR $HOME/.install.sh"
 alias eg="$EDITOR $GITRC"
 alias es="$EDITOR $SSHRC"
 alias git="hub"
