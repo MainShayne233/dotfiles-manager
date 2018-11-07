@@ -90,3 +90,6 @@ fi
 if ! [[ `which psql` ]]; then
   sudo apt install -y postgresql postgresql-contrib
 fi
+
+# spotify
+snap install spotify
