@@ -16,7 +16,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export GOPATH=$HOME/.go
 
-export PS1="\[\033[32m\]\w\[\033[33m\]\$(parse_git_branch) \$(parse_git_status)\[\033[00m\]\n=> "
+export PS1="\[\033[32m\]\w\[\033[33m\] \$(parse_git_branch) \$(parse_git_status)\[\033[00m\]\n=> "
 
 eval "$($HOME/shell/dotfiles-manager/bin/dotfiles init -)"
 
@@ -33,19 +33,27 @@ alias git="hub"
 alias extract="tar -xzvf"
 
 parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  if [[ -d .git ]]; then
+    echo "($(git branch | grep \* | tr -d '* '))"
+  else
+    echo ''
+  fi
 }
 
 parse_git_status() {
-  local git_status=`git status`
-  if [[ `echo $git_status | grep behind` ]]; then
-    echo '(behind)'
-  elif [[ `echo $git_status | grep ahead` ]]; then
-    echo '(ahead)'
-  elif [[ `echo $git_status | grep 'up to date'` ]]; then
-    echo '(up to date)'
+  if [[ -d .git ]]; then
+    local git_status=`git status`
+    if [[ `echo $git_status | grep behind` ]]; then
+      echo '(behind)'
+    elif [[ `echo $git_status | grep ahead` ]]; then
+      echo '(ahead)'
+    elif [[ `echo $git_status | grep 'up to date'` ]]; then
+      echo '(up to date)'
+    else
+      echo '(¯\_(ツ)_/¯)'
+    fi
   else
-    echo '¯\_(ツ)_/¯'
+    echo ''
   fi
 }
 
