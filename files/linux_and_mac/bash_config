@@ -33,7 +33,7 @@ alias git="hub"
 alias extract="tar -xzvf"
 
 parse_git_branch() {
-  if [[ -d .git ]]; then
+  if [[ `git rev-parse --is-inside-work-tree 2> /dev/null` ]]; then
     echo "($(git branch | grep \* | tr -d '* '))"
   else
     echo ''
@@ -41,13 +41,18 @@ parse_git_branch() {
 }
 
 parse_git_status() {
-  if [[ -d .git ]]; then
+  if [[ `git rev-parse --is-inside-work-tree 2> /dev/null` ]]; then
     local git_status=`git status`
-    if [[ `echo $git_status | grep behind` ]]; then
+    local remote_git_branches=`git branch -a`
+    if ! [[ `echo $remote_git_branches | grep "remotes/origin/$(git bn)"` ]]; then
+      echo '(not on remote)'
+    elif [[ `echo $git_status | grep behind` ]]; then
       echo '(behind)'
     elif [[ `echo $git_status | grep ahead` ]]; then
       echo '(ahead)'
     elif [[ `echo $git_status | grep 'up to date'` ]]; then
+      echo '(up to date)'
+    elif [[ `echo $git_status | grep 'On branch'` ]]; then
       echo '(up to date)'
     else
       echo '(¯\_(ツ)_/¯)'
