@@ -329,6 +329,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ; use editor config
   (setq github-browse-file-show-line-at-point t)
+  (setq elm-format-on-save t)
 
   (editorconfig-mode 1)
   ; line numbers
