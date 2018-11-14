@@ -12,7 +12,8 @@ export PATH=$PATH:$HOME/.yarn/bin
 export PATH=$PATH:$HOME/opt
 export PATH=$PATH:$HOME/opt/teleport/bin
 export PATH=$PATH:$HOME/opt/tsh/bin
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH=$PATH:$HOME/opt/libwebp/bin
+export PATH=$PATH:$HOME/.cargo/bin
 
 export GOPATH=$HOME/.go
 
