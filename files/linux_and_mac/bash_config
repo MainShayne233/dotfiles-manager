@@ -108,5 +108,3 @@ source "$HOME/packlane/pack/share/.workrc"
 
 source $HOME/.bash_os
 source $HOME/.privaterc
-
-echo 'Made a change'
