@@ -20,7 +20,7 @@ main() {
       replace_in_repo $item_name $system_path $repo_path
     fi
   done
-  header "Done! Now just add and commit via git"
+  header "Done! You can publish these changes via `dotfiles publish`"
 }
 
 main "$@"
