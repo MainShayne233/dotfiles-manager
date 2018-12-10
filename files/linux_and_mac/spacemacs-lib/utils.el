@@ -15,7 +15,7 @@
   "Select the body of an Elixir map w/ string keys, and this will convert them to atom keys" 
   (interactive) 
   (if (use-region-p) 
-      (region-regexp-replace "\"\\(.+\\)\" =>" "\\1:")))
+      (region-regexp-replace "\"\\([A-z|0-9|\\@]+[\\?|\\!]?\\)\" =>" "\\1:")))
 
 (defun elixir-atom-to-string-keys () 
   "Select the body of an Elixir map w/ atom keys, and this will convert them to string keys" 
