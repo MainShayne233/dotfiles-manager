@@ -319,6 +319,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
+  (setq create-lockfiles nil)
   )
 
 (defun dotspacemacs/user-config ()
@@ -350,9 +351,20 @@ you should place your code here."
 
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'js2-jsx-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
   (add-hook 'typescript-mode-hook 'prettier-js-mode)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+
+  ; (add-hook 'web-mode-hook 'prettier-js-mode)
+  (defun enable-minor-mode (my-pair)
+  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
+          (funcall (cdr my-pair)))))
+  (add-hook 'web-mode-hook #'(lambda ()
+                             (enable-minor-mode
+                              '("\\.[j|t]sx?\\'" . prettier-js-mode))))
+
+
 
 (defun my/use-eslint-from-node-modules ()
   (let* ((root (locate-dominating-file
@@ -386,6 +398,9 @@ you should place your code here."
 (add-hook 'before-save-hook 'tide-format-before-save)
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+;; load custom files
+(load-file "~/.spacemacs-lib/utils.el")
 
 
 ;; Do not write anything past this comment. This is where Emacs will
