@@ -1,6 +1,7 @@
 (defun selected-text ()
   "Returns the currently selected text"
-  (buffer-substring (region-beginning) (region-end)))
+  (buffer-substring (region-beginning) (region-end))
+)
 
 (defun region-regexp-replace (match-pattern replace-pattern)
   "Runs a replace-regexp-in-string on currently selected region"
