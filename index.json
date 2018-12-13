@@ -97,6 +97,17 @@
   {
     "name": "Alacritty Config",
     "linux": {
+      "system_path": "$HOME/.config/alacritty/alacritty.yml",
+      "repo_path": "files/linux_and_mac/alacritty_config.yml"
+    },
+    "mac": {
+      "system_path": "$HOME/.config/alacritty/alacritty.yml",
+      "repo_path": "files/linux_and_mac/alacritty_config.yml"
+    }
+  },
+  {
+    "name": "Alacritty Bash Completion",
+    "linux": {
       "system_path": "$HOME/.alacritty-completions.bash",
       "repo_path": "files/linux_and_mac/alacritty-completions.bash"
     },
