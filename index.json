@@ -93,5 +93,23 @@
       "system_path": "$HOME/.install.sh",
       "repo_path": "files/linux/install.sh"
     }
+  },
+  {
+    "name": "Alacritty Config",
+    "linux": {
+      "system_path": "$HOME/.alacritty-completions.bash",
+      "repo_path": "files/linux_and_mac/alacritty-completions.bash"
+    },
+    "mac": {
+      "system_path": "$HOME/.alacritty-completions.bash",
+      "repo_path": "files/linux_and_mac/alacritty-completions.bash"
+    }
+  },
+  {
+    "name": "Install Script",
+    "linux": {
+      "system_path": "$HOME/.install.sh",
+      "repo_path": "files/linux/install.sh"
+    }
   }
 ]
