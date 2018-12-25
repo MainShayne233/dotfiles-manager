@@ -13,9 +13,12 @@ export PATH=$PATH:$HOME/opt
 export PATH=$PATH:$HOME/opt/teleport/bin
 export PATH=$PATH:$HOME/opt/tsh/bin
 export PATH=$PATH:$HOME/opt/libwebp/bin
+export PATH=$PATH:$HOME/opt/racer/target/release
 export PATH=$PATH:$HOME/.cargo/bin
 
 export GOPATH=$HOME/.go
+
+export RUST_SRC_PATH="$HOME/.asdf/installs/rust/1.31.0/toolchains/1.31.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"
 
 # export PS1="\[\033[32m\]\w\[\033[33m\] \$(parse_git_branch)\[\033[00m\]\n=> "
 export PS1="\[\033[32m\]\w\[\033[33m\] \$(parse_git_branch)\[\033[00m\]\n=> "
