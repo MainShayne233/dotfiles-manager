@@ -98,6 +98,8 @@ verbose_cp() {
   local source="$1"
   local destination="$2"
   header "Copying $source to $destination"
+  mkdir -p $destination
+  rm -rf $destination
   cp -r $source $destination
 }
 
