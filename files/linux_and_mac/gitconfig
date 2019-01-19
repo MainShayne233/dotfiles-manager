@@ -14,6 +14,7 @@
 	cv=commit -v
 	branchdiff="!git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | tr '\n' ' '"
 	wip="!git add -A && git commit -m 'WIP'"
+	cm="checkout master"
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

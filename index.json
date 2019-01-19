@@ -122,5 +122,16 @@
       "system_path": "$HOME/.install.sh",
       "repo_path": "files/linux/install.sh"
     }
+  },
+  {
+    "name": "ZSH Config",
+    "linux": {
+      "system_path": "$HOME/.zshrc",
+      "repo_path": "files/linux_and_mac/zsh_config"
+    },
+    "mac": {
+      "system_path": "$HOME/.zshrc",
+      "repo_path": "files/linux_and_mac/zsh_config"
+    }
   }
 ]
