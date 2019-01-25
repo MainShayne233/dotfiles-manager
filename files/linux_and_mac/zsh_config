@@ -54,6 +54,8 @@ run() {
     else
       iex -S mix
     fi
+  elif [ -f package.json ]; then
+    yarn start
   else
     echo '`run` not setup for this project type'
   fi
@@ -85,6 +87,7 @@ scpdir() {
 }
 
 source "$HOME/packlane/pack/share/.workrc"
+source "$HOME/packlane/.packlanerc"
 
 source $HOME/.alacritty-completions.bash
 source $HOME/.bash_os

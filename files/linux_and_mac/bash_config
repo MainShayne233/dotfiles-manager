@@ -1,92 +1,92 @@
-export BASHRC="$HOME/.bash_profile"
-export SSHRC="$HOME/.ssh/config"
-export GITRC="$HOME/.gitconfig"
-export EMAIL="shaynetremblay@gmail.com"
-export EDITOR="vim"
-
-export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:/usr/lib/go-1.10/bin
-export PATH=$PATH:$HOME/.go/bin
-export PATH=$PATH:$HOME/bin
-export PATH=$PATH:$HOME/.yarn/bin
-export PATH=$PATH:$HOME/opt
-export PATH=$PATH:$HOME/opt/teleport/bin
-export PATH=$PATH:$HOME/opt/tsh/bin
-export PATH=$PATH:$HOME/opt/libwebp/bin
-export PATH=$PATH:$HOME/opt/racer/target/release
-export PATH=$PATH:$HOME/.cargo/bin
-
-export GOPATH=$HOME/.go
-
-export RUST_SRC_PATH="$HOME/.asdf/installs/rust/1.31.0/toolchains/1.31.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"
-
+# export BASHRC="$HOME/.bash_profile"
+# export SSHRC="$HOME/.ssh/config"
+# export GITRC="$HOME/.gitconfig"
+# export EMAIL="shaynetremblay@gmail.com"
+# export EDITOR="vim"
+# 
+# export PATH=$PATH:/usr/local/sbin
+# export PATH=$PATH:/usr/lib/go-1.10/bin
+# export PATH=$PATH:$HOME/.go/bin
+# export PATH=$PATH:$HOME/bin
+# export PATH=$PATH:$HOME/.yarn/bin
+# export PATH=$PATH:$HOME/opt
+# export PATH=$PATH:$HOME/opt/teleport/bin
+# export PATH=$PATH:$HOME/opt/tsh/bin
+# export PATH=$PATH:$HOME/opt/libwebp/bin
+# export PATH=$PATH:$HOME/opt/racer/target/release
+# export PATH=$PATH:$HOME/.cargo/bin
+# 
+# export GOPATH=$HOME/.go
+# 
+# export RUST_SRC_PATH="$HOME/.asdf/installs/rust/1.31.0/toolchains/1.31.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"
+# 
+# # export PS1="\[\033[32m\]\w\[\033[33m\] \$(parse_git_branch)\[\033[00m\]\n=> "
 # export PS1="\[\033[32m\]\w\[\033[33m\] \$(parse_git_branch)\[\033[00m\]\n=> "
-export PS1="\[\033[32m\]\w\[\033[33m\] \$(parse_git_branch)\[\033[00m\]\n=> "
-
-eval "$($HOME/shell/dotfiles-manager/bin/dotfiles init -)"
-
-. $HOME/.asdf/asdf.sh
-
-. $HOME/.asdf/completions/asdf.bash
-
-alias sb="source $BASHRC"
-alias eb="$EDITOR $BASHRC && sb"
-alias ei="$EDITOR $HOME/.install.sh"
-alias eg="$EDITOR $GITRC"
-alias es="$EDITOR $SSHRC"
-alias git="hub"
-alias extract="tar -xzvf"
-
-parse_git_branch() {
-  if [[ `git rev-parse --is-inside-work-tree 2> /dev/null` ]]; then
-    echo "($(git branch | grep \* | tr -d '* '))"
-  else
-    echo ''
-  fi
-}
-
-run() {
-  # for all Elixir projects
-  if [ -f mix.exs ]; then
-    # for Phoenix projects
-    if grep -q "phoenix" mix.exs; then
-      iex -S mix phx.server
-    # for plain Elixir projects
-    else
-      iex -S mix
-    fi
-  else
-    echo '`run` not setup for this project type'
-  fi
-}
-
-killit() {
-  kill -9 `ps -ef | grep $1 | grep -v grep | awk '{ print $2 }' | tr '\n' ' '`
-}
-
-elixirdiff() {
-  git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | grep .ex | tr '\n' ' '
-}
-
-schedule() {
-  if [[ ! -d $HOME/schedule ]]; then
-    mkdir $HOME/schedule
-  fi
-  if [[ "$1" =~ ^(--yesterday|-y) ]]; then
-    vim "$HOME/schedule/$(date -d 'yesterday' +'%m-%d-%Y').log"
-  elif [[ "$1" =~ ^(--tomorrow|-t) ]]; then
-    vim "$HOME/schedule/$(date -d 'tomorrow' +'%m-%d-%Y').log"
-  else
-    vim "$HOME/schedule/$(date +'%m-%d-%Y').log"
-  fi
-}
-
-scpdir() {
-  tar czf - "$1" | ssh "$2" "cd ~/ && tar xvzf -"
-}
-
-source "$HOME/packlane/pack/share/.workrc"
-
-source $HOME/.alacritty-completions.bash
-source $HOME/.bash_os
-source $HOME/.privaterc
+# 
+# eval "$($HOME/shell/dotfiles-manager/bin/dotfiles init -)"
+# 
+# . $HOME/.asdf/asdf.sh
+# 
+# . $HOME/.asdf/completions/asdf.bash
+# 
+# alias sb="source $BASHRC"
+# alias eb="$EDITOR $BASHRC && sb"
+# alias ei="$EDITOR $HOME/.install.sh"
+# alias eg="$EDITOR $GITRC"
+# alias es="$EDITOR $SSHRC"
+# alias git="hub"
+# alias extract="tar -xzvf"
+# 
+# parse_git_branch() {
+#   if [[ `git rev-parse --is-inside-work-tree 2> /dev/null` ]]; then
+#     echo "($(git branch | grep \* | tr -d '* '))"
+#   else
+#     echo ''
+#   fi
+# }
+# 
+# run() {
+#   # for all Elixir projects
+#   if [ -f mix.exs ]; then
+#     # for Phoenix projects
+#     if grep -q "phoenix" mix.exs; then
+#       iex -S mix phx.server
+#     # for plain Elixir projects
+#     else
+#       iex -S mix
+#     fi
+#   else
+#     echo '`run` not setup for this project type'
+#   fi
+# }
+# 
+# killit() {
+#   kill -9 `ps -ef | grep $1 | grep -v grep | awk '{ print $2 }' | tr '\n' ' '`
+# }
+# 
+# elixirdiff() {
+#   git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | grep .ex | tr '\n' ' '
+# }
+# 
+# schedule() {
+#   if [[ ! -d $HOME/schedule ]]; then
+#     mkdir $HOME/schedule
+#   fi
+#   if [[ "$1" =~ ^(--yesterday|-y) ]]; then
+#     vim "$HOME/schedule/$(date -d 'yesterday' +'%m-%d-%Y').log"
+#   elif [[ "$1" =~ ^(--tomorrow|-t) ]]; then
+#     vim "$HOME/schedule/$(date -d 'tomorrow' +'%m-%d-%Y').log"
+#   else
+#     vim "$HOME/schedule/$(date +'%m-%d-%Y').log"
+#   fi
+# }
+# 
+# scpdir() {
+#   tar czf - "$1" | ssh "$2" "cd ~/ && tar xvzf -"
+# }
+# 
+# source "$HOME/packlane/pack/share/.workrc"
+# 
+# source $HOME/.alacritty-completions.bash
+# source $HOME/.bash_os
+# source $HOME/.privaterc
