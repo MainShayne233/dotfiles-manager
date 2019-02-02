@@ -361,6 +361,8 @@ you should place your code here."
 
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . react-mode))
+
 
 (defun setup-tide-mode () 
   (interactive) 
