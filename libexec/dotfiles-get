@@ -7,7 +7,11 @@ shopt -s extdebug
 load_commonsh
 
 main() {
-  dotfiles update
+  if [[ $* == *--no-fetch* ]]; then
+    header "Skipping remote pull (--no-fetch)"
+  else
+    dotfiles update
+  fi
   header "Getting files from repo and placing onto system."
   local item_name
   local system_path
