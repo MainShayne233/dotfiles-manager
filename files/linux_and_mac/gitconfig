@@ -10,6 +10,7 @@
 	arh="!git add -A && git reset --hard"
 	arho="!git add -A && git reset --hard origin/`git bn`"
 	pb="!git push origin $(git bn)"
+	pbf="!git push --force-with-lease origin $(git bn)"
 	ap=add --patch
 	cv=commit -v
 	branchdiff="!git diff --name-only `git bn` $(git merge-base `git bn` origin/master) | tr '\n' ' '"
