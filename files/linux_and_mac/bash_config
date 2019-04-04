@@ -90,3 +90,5 @@
 # source $HOME/.alacritty-completions.bash
 # source $HOME/.bash_os
 # source $HOME/.privaterc
+
+export PATH="$HOME/.cargo/bin:$PATH"
