@@ -4,7 +4,7 @@
 ;;
 ;; It must be stored in your home directory.
 
-(defun dotspacemacs/layers () 
+(defun dotspacemacs/layers ()
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable
 values."
@@ -32,15 +32,19 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers '(
+                                       elixir
+                                       haskell
+                                       python
+                                       typescript
                                        csv
                                        ruby
                                        elm yaml
                                            ;; languages
-                                           rust erlang markdown javascript react elixir c-c++
+                                           rust erlang markdown javascript react c-c++
                                            emacs-lisp
                                            ;; etc
                                            nlinum (auto-completion :variables
-                                                                   auto-completion-enable-help-tooltip 
+                                                                   auto-completion-enable-help-tooltip
                                                                    t
                                                                    auto-completion-enable-sort-by-usage
                                                                    t)
@@ -79,7 +83,7 @@ values."
    ;; Spacemacs and never uninstall them. (default is `used-only')
    dotspacemacs-install-packages 'used-only))
 
-(defun dotspacemacs/init () 
+(defun dotspacemacs/init ()
   "Initialization function.
 This function is called at the very startup of Spacemacs initialization
 before layers configuration.
@@ -128,7 +132,7 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5) 
+   dotspacemacs-startup-lists '((recents . 5)
                                 (projects . 7))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
@@ -142,9 +146,9 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Fira Code Retina" :size 13 
-                               :weight normal 
-                               :width normal 
+   dotspacemacs-default-font '("Fira Code Retina" :size 13
+                               :weight normal
+                               :width normal
                                :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -301,19 +305,19 @@ values."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil))
 
-(defun dotspacemacs/user-init () 
+(defun dotspacemacs/user-init ()
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init', before layer configuration
 executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (setq js2-mode-show-parse-errors nil) 
-  (setq js2-mode-show-strict-warnings nil) 
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
   (setq create-lockfiles nil)
   )
 
-(defun dotspacemacs/user-config () 
+(defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
@@ -321,15 +325,45 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
                                         ; use editor config
-  (setq github-browse-file-show-line-at-point t) 
-  (setq elm-format-on-save t) 
+  (setq github-browse-file-show-line-at-point t)
+  (setq elm-format-on-save t)
   (editorconfig-mode 1)
                                         ; line numbers
-  (nlinum-relative-setup-evil) 
+  (nlinum-relative-setup-evil)
   (nlinum-relative-mode 1)
 
   ;; smartparens
   (smartparens-global-mode 1))
+
+;; mix format respect .formatter.exs
+(add-hook 'elixir-format-hook (lambda ()
+                                (if (projectile-project-p)
+                                    (setq elixir-format-arguments
+                                          (list "--dot-formatter"
+                                                (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
+                                  (setq elixir-format-arguments nil))))
+
+
+(defun elixir-format--from-mix-root (elixir-path errbuff format-arguments)
+  "Run mix format where `mix.exs' is located, because mix is
+meant to be run from the project root. Otherwise, run in the
+current directory."
+  (let ((original-default-directory default-directory)
+        (mix-dir (locate-dominating-file buffer-file-name "mix.exs")))
+
+    (when mix-dir
+      (setq default-directory (expand-file-name mix-dir)))
+
+    (message (concat "Run "
+                     (abbreviate-file-name default-directory) ": "
+                     (mapconcat 'identity format-arguments " ")))
+
+    (let* ((formatter-executable (car format-arguments))
+           (formatter-arguments (cdr format-arguments))
+           (result (apply #'call-process
+                          formatter-executable nil errbuff nil formatter-arguments)))
+      (setq default-directory original-default-directory)
+      result)))
 
 (setq flycheck-elixir-credo-strict t)
 (add-hook 'js2-mode-hook 'prettier-js-mode)
@@ -339,23 +373,23 @@ you should place your code here."
 
 
                                         ; (add-hook 'web-mode-hook 'prettier-js-mode)
-(defun enable-minor-mode (my-pair) 
+(defun enable-minor-mode (my-pair)
   "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
-  (if (buffer-file-name) 
-      (if (string-match (car my-pair) buffer-file-name) 
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
           (funcall (cdr my-pair)))))
-(add-hook 'web-mode-hook #'(lambda () 
+(add-hook 'web-mode-hook #'(lambda ()
                              (enable-minor-mode '("\\.[j|t]sx?\\'" . prettier-js-mode))))
 
 
 
-(defun my/use-eslint-from-node-modules () 
-  (let* ((root (locate-dominating-file (or (buffer-file-name) 
-                                           default-directory) "node_modules")) 
-         (eslint (and root 
-                      (expand-file-name "node_modules/eslint/bin/eslint.js" root)))) 
-    (when (and eslint 
-               (file-executable-p eslint)) 
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file (or (buffer-file-name)
+                                           default-directory) "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js" root))))
+    (when (and eslint
+               (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
 
@@ -363,12 +397,12 @@ you should place your code here."
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . react-mode))
 
 
-(defun setup-tide-mode () 
-  (interactive) 
-  (tide-setup) 
-  (flycheck-mode +1) 
-  (setq flycheck-check-syntax-automatically '(save mode-enabled)) 
-  (eldoc-mode +1) 
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
@@ -386,7 +420,8 @@ you should place your code here."
 ;; load custom files
 (load-file "~/.spacemacs-lib/utils.el")
 (load-file "~/.spacemacs-lib/elisp-format.el")
-
+(load-file "~/.spacemacs-lib/gleam-mode.el")
+(load-file "~/.spacemacs-lib/gleam-mode.el")
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -396,7 +431,7 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(transient w3 csv-mode format-all rufo reformatter rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby tide typescript-mode github-browse-file nlinum skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode projectile request flx haml-mode gitignore-mode fringe-helper git-gutter+ git-gutter flycheck magit magit-popup git-commit ghub treepy graphql with-editor evil goto-chg undo-tree web-completion-data dash-functional tern pos-tip markdown-mode bind-key yasnippet packed s company dash elixir-mode pkg-info epl helm avy helm-core async auto-complete popup flycheck-elm elm-mode yaml-mode toml-mode racer flycheck-rust cargo rust-mode flycheck-dialyxir flycheck-pos-tip ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode paradox spinner org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu highlight dumb-jump f define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link which-key web-mode web-beautify use-package tagedit smeargle smartparens slim-mode scss-mode sass-mode pug-mode prettier-js pcre2el orgit ob-elixir nlinum-relative mmm-mode markdown-toc magit-gitflow macrostep livid-mode json-mode js2-refactor js-doc hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flycheck-mix flycheck-credo exec-path-from-shell evil-visualstar evil-magit evil-escape erlang emmet-mode elisp-slime-nav editorconfig disaster diminish diff-hl company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clang-format bind-map auto-yasnippet auto-compile alchemist ace-window ace-jump-helm-line ac-ispell)))
+   '(intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic transient w3 csv-mode format-all rufo reformatter rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby tide typescript-mode github-browse-file nlinum skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode projectile request flx haml-mode gitignore-mode fringe-helper git-gutter+ git-gutter flycheck magit magit-popup git-commit ghub treepy graphql with-editor evil goto-chg undo-tree web-completion-data dash-functional tern pos-tip markdown-mode bind-key yasnippet packed s company dash elixir-mode pkg-info epl helm avy helm-core async auto-complete popup flycheck-elm elm-mode yaml-mode toml-mode racer flycheck-rust cargo rust-mode flycheck-dialyxir flycheck-pos-tip ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode paradox spinner org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu highlight dumb-jump f define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link which-key web-mode web-beautify use-package tagedit smeargle smartparens slim-mode scss-mode sass-mode pug-mode prettier-js pcre2el orgit ob-elixir nlinum-relative mmm-mode markdown-toc magit-gitflow macrostep livid-mode json-mode js2-refactor js-doc hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flycheck-mix flycheck-credo exec-path-from-shell evil-visualstar evil-magit evil-escape erlang emmet-mode elisp-slime-nav editorconfig disaster diminish diff-hl company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clang-format bind-map auto-yasnippet auto-compile alchemist ace-window ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

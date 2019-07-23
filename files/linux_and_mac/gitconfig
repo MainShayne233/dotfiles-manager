@@ -1,10 +1,10 @@
 [user]
 	name = MainShayne233
-	email = shaynetremblay@hotmail.com
+	email = shaynetremblay@gmail.com
 [color]
 	ui = true
 [credential]
-	helper = store
+	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [alias]
 	bn="!git rev-parse --abbrev-ref HEAD"
 	arh="!git add -A && git reset --hard"
