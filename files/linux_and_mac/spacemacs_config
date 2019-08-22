@@ -369,11 +369,8 @@ current directory."
       result)))
 
 (setq flycheck-elixir-credo-strict t)
-;; (add-hook 'js2-mode-hook 'prettier-js-mode)
-;; (add-hook 'js2-jsx-mode-hook 'prettier-js-mode)
-;; (add-hook 'typescript-mode-hook 'prettier-js-mode)
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;; Setup up prettier and make sure it uses the node in node_modules
 (eval-after-load 'web-mode
   '(progn
      (add-hook 'web-mode-hook #'add-node-modules-path)
