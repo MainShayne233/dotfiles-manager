@@ -39,31 +39,31 @@ values."
                                        csv
                                        ruby
                                        elm yaml
-                                           ;; languages
-                                           rust erlang markdown javascript react c-c++
-                                           emacs-lisp
-                                           ;; etc
-                                           nlinum (auto-completion :variables
-                                                                   auto-completion-enable-help-tooltip
-                                                                   t
-                                                                   auto-completion-enable-sort-by-usage
-                                                                   t)
-                                           ;; ----------------------------------------------------------------
-                                           ;; Example of useful layers you may want to use right away.
-                                           ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-                                           ;; <M-m f e R> (Emacs style) to install them.
-                                           ;; ----------------------------------------------------------------
-                                           helm
-                                           auto-completion
-                                           ;; better-defaults
-                                           git
-                                           ;; markdown
-                                           ;; org
-                                           ;; (shell :variables
-                                           ;;        shell-default-height 30
-                                           ;;        shell-default-position 'bottom)
-                                           ;; spell-checking
-                                           syntax-checking version-control)
+                                       ;; languages
+                                       rust erlang markdown javascript react c-c++
+                                       emacs-lisp
+                                       ;; etc
+                                       nlinum (auto-completion :variables
+                                                               auto-completion-enable-help-tooltip
+                                                               t
+                                                               auto-completion-enable-sort-by-usage
+                                                               t)
+                                       ;; ----------------------------------------------------------------
+                                       ;; Example of useful layers you may want to use right away.
+                                       ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+                                       ;; <M-m f e R> (Emacs style) to install them.
+                                       ;; ----------------------------------------------------------------
+                                       helm
+                                       auto-completion
+                                       ;; better-defaults
+                                       git
+                                       ;; markdown
+                                       ;; org
+                                       ;; (shell :variables
+                                       ;;        shell-default-height 30
+                                       ;;        shell-default-position 'bottom)
+                                       ;; spell-checking
+                                       syntax-checking version-control)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -335,6 +335,9 @@ you should place your code here."
   ;; smartparens
   (smartparens-global-mode 1))
 
+
+(add-to-list 'auto-mode-alist '("\\.lalrpop\\'" . rust-mode))
+
 ;; mix format respect .formatter.exs
 (add-hook 'elixir-format-hook (lambda ()
                                 (if (projectile-project-p)
@@ -366,10 +369,24 @@ current directory."
       result)))
 
 (setq flycheck-elixir-credo-strict t)
-(add-hook 'js2-mode-hook 'prettier-js-mode)
-(add-hook 'js2-jsx-mode-hook 'prettier-js-mode)
-(add-hook 'typescript-mode-hook 'prettier-js-mode)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (add-hook 'js2-mode-hook 'prettier-js-mode)
+;; (add-hook 'js2-jsx-mode-hook 'prettier-js-mode)
+;; (add-hook 'typescript-mode-hook 'prettier-js-mode)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+
+(eval-after-load 'web-mode
+  '(progn
+     (add-hook 'web-mode-hook #'add-node-modules-path)
+     (add-hook 'web-mode-hook #'prettier-js-mode)
+     (add-hook 'js2-mode-hook #'add-node-modules-path)
+     (add-hook 'js2-mode-hook #'prettier-js-mode)
+     (add-hook 'js2-jsx-mode-hook #'add-node-modules-path)
+     (add-hook 'js2-jsx-mode-hook #'prettier-js-mode)
+     (add-hook 'typescript-mode-hook #'add-node-modules-path)
+     (add-hook 'typescript-mode-hook #'prettier-js-mode)
+     (add-hook 'tide-mode-hook #'add-node-modules-path)
+     (add-hook 'tide-mode-hook #'prettier-js-mode)
+     ))
 
 
                                         ; (add-hook 'web-mode-hook 'prettier-js-mode)
@@ -394,7 +411,6 @@ current directory."
 
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . react-mode))
 
 
 (defun setup-tide-mode ()
@@ -412,9 +428,6 @@ current directory."
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
 
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
-
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; load custom files
@@ -422,6 +435,7 @@ current directory."
 (load-file "~/.spacemacs-lib/elisp-format.el")
 (load-file "~/.spacemacs-lib/gleam-mode.el")
 (load-file "~/.spacemacs-lib/gleam-mode.el")
+(load-file "~/.spacemacs-lib/add-node-modules-path.el")
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

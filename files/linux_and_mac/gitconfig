@@ -17,7 +17,8 @@
 	wip="!git add -A && git commit -m 'WIP'"
 	pr="!hub pull-request"
 	cm="checkout master"
-	cb="checkout -b"
+  cb="checkout -b"
+  prom="pull --rebase origin master"
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
