@@ -144,5 +144,16 @@
       "system_path": "$HOME/.config/nvim/init.vim",
       "repo_path": "files/linux_and_mac/vim_config"
     }
+  },
+  {
+    "name": "oh-my-zsh theme",
+    "linux": {
+      "system_path": "$HOME/.oh-my-zsh/custom/themes/powerlevel9k/powerlevel9k.zsh-theme",
+      "repo_path": "files/linux_and_mac/oh-my-zsh-theme"
+    },
+    "mac": {
+      "system_path": "$HOME/.oh-my-zsh/custom/themes/powerlevel9k/powerlevel9k.zsh-theme",
+      "repo_path": "files/linux_and_mac/oh-my-zsh-theme"
+    }
   }
 ]
