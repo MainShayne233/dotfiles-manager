@@ -144,5 +144,16 @@
       "system_path": "$HOME/.config/nvim/init.vim",
       "repo_path": "files/linux_and_mac/vim_config"
     }
+  },
+  {
+    "name": "oh-my-zsh files",
+    "linux": {
+      "system_path": "$HOME/.oh-my-zsh",
+      "repo_path": "files/linux_and_mac/oh-my-zsh"
+    },
+    "mac": {
+      "system_path": "$HOME/.oh-my-zsh",
+      "repo_path": "files/linux_and_mac/oh-my-zsh"
+    }
   }
 ]
