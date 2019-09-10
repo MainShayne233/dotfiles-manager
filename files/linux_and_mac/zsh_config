@@ -18,6 +18,7 @@ export PATH=$PATH:$HOME/opt/tsh/bin
 export PATH=$PATH:$HOME/opt/libwebp/bin
 export PATH=$PATH:$HOME/opt/racer/target/release
 export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/.cabal/bin
 
 export GOPATH=$HOME/.go
 export ALPACA_ROOT=$HOME/opt/alpaca
@@ -39,6 +40,7 @@ source_if_exists() {
 source $ZSH/oh-my-zsh.sh
 
 eval "$($HOME/dotfiles-manager/bin/dotfiles init -)"
+eval "$($HOME/provision/bin/provision init -)"
 
 . $HOME/.asdf/asdf.sh
 
@@ -120,6 +122,19 @@ cpsecrets() {
   for file in $(find "$dir" -name "*.exs.example")
   do
     cp "$file" ${VAL%.example}
+  done
+}
+
+rename() {
+  local old_pattern="$1"
+  shift
+  local new_pattern="$1"
+  shift
+
+  for file in $@; do
+    new_name=$(echo "$file" | awk "{ gsub(/$old_pattern/, \"$new_pattern\"); print }" )
+    echo "$file -> $new_name"
+    mv "$file" "$new_name"
   done
 }
 

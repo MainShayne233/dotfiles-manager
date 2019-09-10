@@ -1,5 +1,0 @@
-Include conf.d/*
-
-Host linprog
-  HostName linprog2.cs.fsu.edu
-  User tremblay
