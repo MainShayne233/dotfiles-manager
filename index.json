@@ -124,14 +124,14 @@
     }
   },
   {
-    "name": "ZSH Config",
+    "name": "fish",
     "linux": {
-      "system_path": "$HOME/.zshrc",
-      "repo_path": "files/linux_and_mac/zsh_config"
+      "system_path": "$HOME/.config/fish",
+      "repo_path": "files/linux_and_mac/fish"
     },
     "mac": {
-      "system_path": "$HOME/.zshrc",
-      "repo_path": "files/linux_and_mac/zsh_config"
+      "system_path": "$HOME/.config/fish",
+      "repo_path": "files/linux_and_mac/fish"
     }
   },
   {
@@ -143,17 +143,6 @@
     "mac": {
       "system_path": "$HOME/.config/nvim/init.vim",
       "repo_path": "files/linux_and_mac/vim_config"
-    }
-  },
-  {
-    "name": "oh-my-zsh theme",
-    "linux": {
-      "system_path": "$HOME/.oh-my-zsh/custom/themes/powerlevel9k/powerlevel9k.zsh-theme",
-      "repo_path": "files/linux_and_mac/oh-my-zsh-theme"
-    },
-    "mac": {
-      "system_path": "$HOME/.oh-my-zsh/custom/themes/powerlevel9k/powerlevel9k.zsh-theme",
-      "repo_path": "files/linux_and_mac/oh-my-zsh-theme"
     }
   }
 ]
