@@ -51,8 +51,8 @@ alias eb="$EDITOR $BASHRC && sb"
 alias ei="$EDITOR $HOME/.install.sh"
 alias eg="$EDITOR $GITRC"
 alias es="$EDITOR $SSHRC"
-# alias git="hub"
 alias extract="tar -xzvf"
+alias g="git"
 
 runproject() {
   # for all Elixir projects
@@ -136,6 +136,12 @@ rename() {
     echo "$file -> $new_name"
     mv "$file" "$new_name"
   done
+}
+
+dickpussydickpussypussy() {
+  espeak 'dickpussydickpussypussy'
+  sleep 1
+  sudo poweroff
 }
 
 source_if_exists "$HOME/.workrc"
