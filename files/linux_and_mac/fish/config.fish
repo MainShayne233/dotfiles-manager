@@ -3,6 +3,9 @@
 # surpress greeting
 set fish_greeting
 
+# init starship
+eval (starship init fish)
+
 # set envs
 set -g -x BASHRC "$HOME/.config/fish/config.fish"
 set -g -x SSHRC  "$HOME/.ssh/config"
