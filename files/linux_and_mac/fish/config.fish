@@ -92,6 +92,45 @@ function run
     runproject
 end
 
+function rename
+  set old_pattern "$argv[1]"
+  set new_pattern "$argv[2]"
+
+  for file in $argv[3..-1]
+    set new_name (echo "$file" | awk "{ gsub(/$old_pattern/, \"$new_pattern\"); print }" )
+    echo "$file -> $new_name"
+    mv "$file" "$new_name"
+  end
+end
+
+function backup
+  fish -c '
+    source "$HOME/.restic-keys"
+    restic -r $RESTIC_REPOSITORY backup "$HOME" \
+      --exclude "node_modules" \
+      --exclude "_build" \
+      --exclude "deps" \
+      --exclude "*.plt" \
+      --exclude ".cache" \
+      --exclude ".ansible" \
+      --exclude ".asdf" \
+      --exclude ".bazel" \
+      --exclude ".bazel_binaries" \
+      --exclude ".cabal" \
+      --exclude ".cache" \
+      --exclude ".cargo" \
+      --exclude ".go" \
+      --exclude ".hex" \
+      --exclude ".linuxbrew" \
+      --exclude ".rustup" \
+      --exclude ".secrets" \
+      --exclude ".stack" \
+      --exclude ".zoom" \
+      --exclude "*Cache*" \
+      --exclude ".config/Slack"
+  '
+end
+
 # start tmux on start
 if status is-interactive
 and not set -q TMUX

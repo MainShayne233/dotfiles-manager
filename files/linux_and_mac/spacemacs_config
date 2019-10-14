@@ -372,7 +372,7 @@ current directory."
 (setq flycheck-elixir-credo-strict t)
 
 ;; Setup up prettier and make sure it uses the node in node_modules
-(eval-after-load 'web-mode
+(eval-after-load 'js2-mode
   '(progn
      (add-hook 'web-mode-hook #'add-node-modules-path)
      (add-hook 'web-mode-hook #'prettier-js-mode)
@@ -385,18 +385,6 @@ current directory."
      (add-hook 'tide-mode-hook #'add-node-modules-path)
      (add-hook 'tide-mode-hook #'prettier-js-mode)
      ))
-
-
-                                        ; (add-hook 'web-mode-hook 'prettier-js-mode)
-(defun enable-minor-mode (my-pair)
-  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
-  (if (buffer-file-name)
-      (if (string-match (car my-pair) buffer-file-name)
-          (funcall (cdr my-pair)))))
-(add-hook 'web-mode-hook #'(lambda ()
-                             (enable-minor-mode '("\\.[j|t]sx?\\'" . prettier-js-mode))))
-
-
 
 (defun my/use-eslint-from-node-modules ()
   (let* ((root (locate-dominating-file (or (buffer-file-name)
