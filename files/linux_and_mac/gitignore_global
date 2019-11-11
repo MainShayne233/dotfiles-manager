@@ -36,10 +36,18 @@ dist/
 flycheck_*.el
 
 # server auth directory
-/server/
+# disabled to allow for server dirs
+# /server/
 
 # projectiles files
 .projectile
 
 # directory configuration
 .dir-locals.el
+
+# haskell stuff
+.stack-work
+dist-newstyle
+
+# elm
+elm-stuff

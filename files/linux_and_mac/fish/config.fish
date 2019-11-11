@@ -3,9 +3,6 @@
 # surpress greeting
 set fish_greeting
 
-# init starship
-eval (starship init fish)
-
 # set envs
 set -g -x BASHRC "$HOME/.config/fish/config.fish"
 set -g -x SSHRC  "$HOME/.ssh/config"
@@ -32,6 +29,9 @@ set PATH \
   "$HOME/dotfiles-manager/bin" \
   "$HOME/provision/bin" \
 $PATH
+
+# init starship
+eval (starship init fish)
 
 function _source_if_exists
     set file "$argv[1]"
@@ -83,6 +83,8 @@ function runproject
         end
     else if test -e "package.json"
         yarn start
+    else if test -e "stack.yaml"
+        stack run
     else
         echo "runproject not setup for this project type"
     end
@@ -129,6 +131,26 @@ function backup
       --exclude "*Cache*" \
       --exclude ".config/Slack"
   '
+end
+
+function iexdep
+ set deps ''
+  for dep in $argv
+    set deps (echo "$deps '$dep' ")
+  end
+  fish -c "
+    cd /tmp
+    rm -rf tmp_iex_app
+    mix new tmp_iex_app
+    cd tmp_iex_app
+    mix_add_dep $deps
+    mix deps.get
+    iex -S mix
+  "
+end
+
+function get_avy
+  wget --output-document="$HOME/Downloads/avatar.png" "https://avatars0.githubusercontent.com/u/12074467?s=400&v=4"
 end
 
 # start tmux on start
