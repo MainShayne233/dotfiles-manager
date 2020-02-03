@@ -27,6 +27,7 @@ Plug 'dracula/vim', {'as': 'dracula'}
 Plug 'reedes/vim-colors-pencil', {'as': 'pencil', 'for': 'tex'}
 Plug 'ap/vim-css-color', {'for': ['scss', 'css']}
 Plug 'ElmCast/elm-vim', {'for': 'elm'}
+Plug 'gleam-lang/gleam.vim'
 call plug#end()
 
 " Use true colors

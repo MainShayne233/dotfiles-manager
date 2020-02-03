@@ -20,10 +20,6 @@ set PATH \
   "$HOME/bin" \
   "$HOME/.yarn/bin" \
   "$HOME/opt" \
-  "$HOME/opt/teleport/bin" \
-  "$HOME/opt/tsh/bin" \
-  "$HOME/opt/libwebp/bin" \
-  "$HOME/opt/racer/target/release" \
   "$HOME/.cargo/bin" \
   "$HOME/.cabal/bin" \
   "$HOME/dotfiles-manager/bin" \
@@ -71,7 +67,8 @@ end
 function killit
     set program "$argv[1]"
     set pids (ps -ef | grep "$program" | grep -v grep | awk '{ print $2 }' | tr '\n' ' ')
-    kill -9 (trim "$pids")
+    echo $pids
+    # kill -9 (trim "$pids")
 end
 
 function runproject

@@ -373,7 +373,13 @@ current directory."
 
 ;; Setup up prettier and make sure it uses the node in node_modules
 (add-hook 'web-mode-hook #'add-node-modules-path)
-(add-hook 'web-mode-hook #'prettier-js-mode)
+;; (add-hook 'web-mode-hook #'prettier-js-mode)
+
+(add-hook 'web-mode-hook #'(lambda ()
+                             (unless (and (stringp buffer-file-name)
+                                          (string-match "\\.eex\\'" buffer-file-name))
+                               (prettier-js-mode))))
+
 (add-hook 'js2-mode-hook #'add-node-modules-path)
 (add-hook 'js2-mode-hook #'prettier-js-mode)
 (add-hook 'js2-jsx-mode-hook #'add-node-modules-path)
@@ -417,7 +423,7 @@ current directory."
 (load-file "~/.spacemacs-lib/utils.el")
 (load-file "~/.spacemacs-lib/elisp-format.el")
 (load-file "~/.spacemacs-lib/gleam-mode.el")
-(load-file "~/.spacemacs-lib/gleam-mode.el")
+(load-file "~/.spacemacs-lib/protobuf-mode.el")
 (load-file "~/.spacemacs-lib/add-node-modules-path.el")
 
 ;; Do not write anything past this comment. This is where Emacs will
