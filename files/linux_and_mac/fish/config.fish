@@ -103,8 +103,12 @@ function rename
 end
 
 function backup
-  fish -c '
-    source "$HOME/.restic-keys"
+  bash -c '
+    export RESTIC_REPOSITORY="$(pass show restic_repo)"
+    export AWS_ACCESS_KEY_ID="$(pass show restic_access_key_id)"
+    export AWS_SECRET_ACCESS_KEY="$(pass show restic_secret_access_key)"
+    export RESTIC_PASSWORD="$(pass show restic_password)"
+
     restic -r $RESTIC_REPOSITORY backup "$HOME" \
       --exclude "node_modules" \
       --exclude "_build" \
