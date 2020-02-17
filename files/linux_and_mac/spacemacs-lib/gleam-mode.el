@@ -1,3 +1,9 @@
+;;; gleam-mode.el --- emacs major mode for the Gleam language
+
+(defvar electric-pair-inhibit-predicate)
+(defvar electric-pair-skip-self)
+(defvar electric-indent-chars)
+
 (setq gleam-font-lock-keywords
       (let* (
             ;; define several category of keywords

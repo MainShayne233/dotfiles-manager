@@ -8,8 +8,17 @@ set -g -x BASHRC "$HOME/.config/fish/config.fish"
 set -g -x SSHRC  "$HOME/.ssh/config"
 set -g -x GITRC  "$HOME/.gitconfig"
 set -g -x EMAIL  "shaynetremblay@gmail.com"
-set -g -x EDITOR "vim"
 set -g -x GOPATH "$HOME/.go"
+
+if type -q "e"
+    set -g -x EDITOR "e"
+else if type -q "vim"
+    set -g -x EDITOR "vim"
+else
+    set -g -x EDITOR "vi"
+end
+
+set -g -x VISUAL "$EDITOR"
 
 # set path
 set PATH \
@@ -24,6 +33,7 @@ set PATH \
   "$HOME/.cabal/bin" \
   "$HOME/dotfiles-manager/bin" \
   "$HOME/provision/bin" \
+  "/var/lib/snapd/snap/bin" \
 $PATH
 
 # init starship
@@ -50,7 +60,7 @@ function sb
 end
 
 function eb
-    vim "$BASHRC"
+    $EDITOR "$BASHRC"
     sb
 end
 
@@ -133,6 +143,17 @@ function backup
       --exclude ".config/Slack"
   '
 end
+
+function restic
+  set REPO (pass show restic_repo)
+  env RESTIC_REPOSITORY=$REPO \
+  env AWS_ACCESS_KEY_ID=(pass show restic_access_key_id) \
+  env AWS_SECRET_ACCESS_KEY=(pass show restic_secret_access_key) \
+  env RESTIC_PASSWORD=(pass show restic_password) \
+  restic -r "$REPO" $argv
+end
+
+
 
 function iexdep
  set deps ''

@@ -19,7 +19,8 @@
 	cm="checkout master"
   cb="checkout -b"
   prom="pull --rebase origin master"
-	cinit="!git init && git add -A && git commit -m 'Init'"
+  cinit="!git init && git add -A && git commit -m 'Init'"
+  clonemine="!git clone \"git@github.com:MainShayne233/$1\""
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
