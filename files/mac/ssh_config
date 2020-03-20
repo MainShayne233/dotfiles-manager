@@ -1,3 +1,2 @@
-Host mbp
-  HostName 10.0.1.2
-  User shayne
+Host *
+    UseKeychain yes
