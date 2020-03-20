@@ -27,6 +27,7 @@ set PATH \
   "/usr/lib/go-1.11/bin" \
   "$HOME/.go/bin" \
   "$HOME/bin" \
+  "/$HOME/.local/bin" \
   "$HOME/.yarn/bin" \
   "$HOME/opt" \
   "$HOME/.cargo/bin" \
@@ -78,7 +79,7 @@ function killit
     set program "$argv[1]"
     set pids (ps -ef | grep "$program" | grep -v grep | awk '{ print $2 }' | tr '\n' ' ')
     echo $pids
-    # kill -9 (trim "$pids")
+    kill -9 (trim "$pids")
 end
 
 function runproject
