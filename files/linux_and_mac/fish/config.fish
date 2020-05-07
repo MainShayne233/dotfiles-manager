@@ -10,9 +10,7 @@ set -g -x GITRC  "$HOME/.gitconfig"
 set -g -x EMAIL  "shaynetremblay@gmail.com"
 set -g -x GOPATH "$HOME/.go"
 
-if type -q "e"
-    set -g -x EDITOR "e"
-else if type -q "vim"
+if type -q "vim"
     set -g -x EDITOR "vim"
 else
     set -g -x EDITOR "vi"
@@ -39,6 +37,12 @@ $PATH
 
 # init starship
 eval (starship init fish)
+
+# init opam
+eval (opam env)
+
+# setup direnv
+eval (direnv hook fish)
 
 function _source_if_exists
     set file "$argv[1]"
@@ -83,16 +87,26 @@ function killit
 end
 
 function runproject
-    if test -e "mix.exs"
+    if test -e "bin/start"
+        bin/start
+    else if test -e "bin/run"
+        bin/run
+    else if test -e "mix.exs"
         if grep -q "phoenix" "mix.exs"
             iex -S mix phx.server
         else
             iex -S mix
         end
+    else if test -e "Cargo.toml"
+        cargo run
+    else if test -e "elm.json"
+        elm-app start
     else if test -e "package.json"
         yarn start
     else if test -e "stack.yaml"
         stack run
+    else if test -e "__main__.py"
+        python __main__.py
     else
         echo "runproject not setup for this project type"
     end
@@ -141,7 +155,10 @@ function backup
       --exclude ".stack" \
       --exclude ".zoom" \
       --exclude "*Cache*" \
-      --exclude ".config/Slack"
+      --exclude ".config/Slack" \
+      --exclude ".config/google-chrome" \
+      --exclude ".config/chromium" \
+      --exclude "*VirtualBox*"
   '
 end
 
@@ -181,4 +198,3 @@ if status is-interactive
 and not set -q TMUX
     exec tmux
 end
-
