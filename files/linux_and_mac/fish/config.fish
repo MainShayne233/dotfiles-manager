@@ -195,16 +195,20 @@ function get_avy
 end
 
 function repeat
-  set n (math "$argv[1]" - 1)
+  set n "$argv[1]"
   set cmd "$argv[2..-1]"
-  set cmd_status "0"
-  for i in (seq 0 $n)
-    eval $cmd
-    set cmd_status "$status"
-    if test "$cmd_status" != "0"; break; end
-  end
+  bash -c "
+  trap ctrl_c INT
 
-  return "$cmd_status"
+  function ctrl_c() {
+    exit 1
+  }
+
+  for j in \$(seq $n); do
+    i=\$((\$j - 1))
+    eval $cmd
+  done
+  "
 end
 
 # start tmux on start
