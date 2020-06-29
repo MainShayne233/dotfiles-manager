@@ -201,9 +201,7 @@ function repeat
   for i in (seq 0 $n)
     eval $cmd
     set cmd_status "$status"
-    if test "$cmd_status" != "0"
-      break
-    end
+    if test "$cmd_status" != "0"; break; end
   end
 
   return "$cmd_status"
