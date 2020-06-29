@@ -9,7 +9,8 @@
 	bn="!git rev-parse --abbrev-ref HEAD"
 	arh="!git add -A && git reset --hard"
 	arho="!git add -A && git reset --hard origin/`git bn`"
-	pb="!git push origin $(git bn)"
+	psb="!git push origin $(git bn)"
+	plb="!git pull origin $(git bn)"
 	pbf="!git push --force-with-lease origin $(git bn)"
 	ap=add --patch
 	cv=commit -v
@@ -17,7 +18,8 @@
 	wip="!git add -A && git commit -m 'WIP'"
 	pr="!hub pull-request"
 	cm="checkout master"
-  cb="checkout -b"
+  ch="checkout"
+  chb="ch -b"
   prom="pull --rebase origin master"
   cinit="!git init && git add -A && git commit -m 'Init'"
   clonemine="!git clone \"git@github.com:MainShayne233/$1\""

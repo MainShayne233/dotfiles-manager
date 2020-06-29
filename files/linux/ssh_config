@@ -1,3 +1,8 @@
 Host mbp
   HostName 10.0.1.2
   User shayne
+
+host jaxtakesaction
+  HostName jaxtakesaction.org
+  User root
+

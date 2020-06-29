@@ -9,6 +9,7 @@ set -g -x SSHRC  "$HOME/.ssh/config"
 set -g -x GITRC  "$HOME/.gitconfig"
 set -g -x EMAIL  "shaynetremblay@gmail.com"
 set -g -x GOPATH "$HOME/.go"
+set -g -x ERL_AFLAGS "-kernel shell_history enabled"
 
 if type -q "vim"
     set -g -x EDITOR "vim"
@@ -193,8 +194,24 @@ function get_avy
   wget --output-document="$HOME/Downloads/avatar.png" "https://avatars0.githubusercontent.com/u/12074467?s=400&v=4"
 end
 
+function repeat
+  set n (math "$argv[1]" - 1)
+  set cmd "$argv[2..-1]"
+  set cmd_status "0"
+  for i in (seq 0 $n)
+    eval $cmd
+    set cmd_status "$status"
+    if test "$cmd_status" != "0"
+      break
+    end
+  end
+
+  return "$cmd_status"
+end
+
 # start tmux on start
 if status is-interactive
 and not set -q TMUX
     exec tmux
 end
+

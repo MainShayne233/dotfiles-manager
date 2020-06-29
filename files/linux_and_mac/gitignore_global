@@ -51,3 +51,9 @@ dist-newstyle
 
 # elm
 elm-stuff
+
+# dir in p4happ that I don't want emacs-helm to see
+canvasapi-develop
+
+# direnv
+.envrc

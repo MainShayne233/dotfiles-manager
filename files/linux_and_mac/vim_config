@@ -29,7 +29,14 @@ Plug 'ap/vim-css-color', {'for': ['scss', 'css']}
 Plug 'ElmCast/elm-vim', {'for': 'elm'}
 Plug 'gleam-lang/gleam.vim'
 Plug 'JuliaEditorSupport/julia-vim'
+Plug 'sbdchd/neoformat'
 call plug#end()
+
+" autoformat on save
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 
 " Use true colors
 set termguicolors
